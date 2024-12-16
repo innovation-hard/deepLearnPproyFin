@@ -39,6 +39,7 @@ Aplico lematización para generar una nueva columna: 'tokensLematizados'.
 ### TextBlob
 Genero una nueva columna 'sentimiento' a través de la evaluación mediante TextBlob.
 Me parece demasiado neutral el análisis de sentimiento.
+
 ![alt text](image.png)
 
 ### Sentimiento TextBlob por Sentence
@@ -98,6 +99,7 @@ Veamos la frecuencia con que aparecen los subtítulos según su 'tfidf_sum', que
 ![alt text](image-6.png)
 
 Podemos separar subtítulos en rangos de TF-IDF y observar algunos para entender como se plasma esa diferencia en el índice.
+
 ![alt text](image-7.png)
 
 Mi interpretación es que un alto TF-IDF resulta para subtítulos con gran valor de contenido impactante. Son como fraces que podemos recordar y asociar a la película.
