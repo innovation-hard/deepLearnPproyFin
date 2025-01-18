@@ -1,3 +1,5 @@
 recortes.ipynb
 ImportMovieScript.py
-Jerry.Maguire.1996.Blu-ray.1080p.x264.HDBRiSe.SPA.srt
+*.srt
+subtitulos-es.csv
+*.json

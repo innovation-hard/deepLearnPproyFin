@@ -1,6 +1,8 @@
 # Deep Learning aplicado a un guión de película
 **Autor: Jorge Aguirre**
 
+![alt text](image-11.png)
+
 Se utiliza el guión de la película: Jerry Maguire - 1996
 
 - Se realiza la importación del archivo de subtítulos csv.
