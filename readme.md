@@ -3,7 +3,7 @@
 
 ![alt text](image-11.png)
 
-Se utiliza el guión de la película: Jerry Maguire - 1996
+Se utiliza el guión (en idioma original) de la película: Jerry Maguire - 1996
 
 - Se realiza la importación del archivo de subtítulos csv.
 
@@ -13,8 +13,7 @@ Es necesario instalar algunas librerías para poder ejecutar éste notebook apar
 ```python
 pip install spacy
 
-# Según el paquete usado: es_core_news_sm, es_core_news_md, es_core_news_lg
-python -m spacy download es_core_news_sm
+python -m spacy download en_core_web_sm
 
 pip install textblob
 
@@ -22,8 +21,13 @@ python -m textblob.download_corpora
 
 pip install wordcloud matplotlib
 
+pip install google-cloud-translate
+
 ```
 ### Puntos Tratados en el desarrollo. ###
+El siguiente esquema sirve de mapa de los campos y tratamientos principales:
+![alt text](NLP01_object_map.drawio.png)
+
 ## NLP
 
 Se tratan los siguientes puntos:
@@ -35,20 +39,16 @@ Genero la columna 'tokens' para representarlos.
 Genero columna 'tokensSinStopwords'
 ### Lematización
 Aplico lematización para generar una nueva columna: 'tokensLematizados'.
->Se observa un problema con los sustantivos propios como los nombres de ciudades: 'Dallas' termina lematizado como 'dalla' y se debe considerar en algún analisis posterior.
 
 ## Análisis de Sentimiento
 ### TextBlob
 Genero una nueva columna 'sentimiento' a través de la evaluación mediante TextBlob.
-Me parece demasiado neutral el análisis de sentimiento.
+
+- Utilizando un servicio de Google Cloud, genero campo 'subtitulo_es' para mejor interpretación de futuros resultados.
+
+Me parece satisfactorio el análisis de sentimiento, en especial al compararlo con la versión anterior.
 
 ![alt text](image.png)
-
-### Sentimiento TextBlob por Sentence
-Genero columna 'sentimientoSentence' de cada subtítulo como promedio de la evaluación de cada Oración.
-![alt text](image-1.png)
-
-Sigue teniendo peso el sentimiento neutral.
 
 ### Análisis de Sentimiento con VADER
 Buscando otro método que quizás me realice una mejor clasificación de sentimientos es que voy a probar VADER.
@@ -64,12 +64,7 @@ Subtítulos más positivos:
 Subtítulos más negativos:
 ![alt text](image-4.png)
 
-- Sin barreras, sin fronteras. - Vale Chad, ya lo entiendo
-  - No creo que sea algo negativo
-- No me gusta ver películas sin ti.
-  - Aquí el algoritmo se centra en 'No me gusta' en ves de considerar la frase completa.
-- Hola. - Cuánto tiempo sin verte.
-  - Realmente no es negativa
+La respuesta del modelo me parece satisfactoria.
 
 ### Análisis con TF-IDF vectorizer
 Se generan diversas columnas con palabras separadas por espacios a partir de los subtítulos.
@@ -79,32 +74,22 @@ Tomo el 'subtitulolimpio3' para realizar el presente análisis por tener los pro
 
 Se pueden obtener las:
 Palabras más relevantes:
-|palabra   |relevancia|
-|-         |-|
-|jerry     | 0.021226|
-|bien      |0.019276|
-|quiero    | 0.018839|
-|gracias   | 0.014444|
-|hola      | 0.011665|
-|quieres   | 0.011499|
-|si        | 0.011457|
-|rod       | 0.011077|
-|vamos     | 0.010827|
-|voy       | 0.010753|
+
+![alt text](image-4-1.png)
 
 Podemos ver los subtítulos con mayor incidencia tfidf de sus palabras.
 ![alt text](image-5.png)
 
 ### Gráfica 1:
-Veamos la frecuencia con que aparecen los subtítulos según su 'tfidf_sum', que es la suma de TF-IDF para el subtítulo evaluado.
+Veamos la frecuencia con que aparecen los subtítulos según su **'tfidf_sum'**, que es la suma de TF-IDF para el subtítulo evaluado.
 
 ![alt text](image-6.png)
 
-Podemos separar subtítulos en rangos de TF-IDF y observar algunos para entender como se plasma esa diferencia en el índice.
+Podemos separar subtítulos en rangos de TF-IDF y observar algunos para entender como se plasma esa diferencia en el índice. Lo siguiente es una muestra de algunos elementos de subtitulos altos:
 
 ![alt text](image-7.png)
 
-Mi interpretación es que un alto TF-IDF resulta para subtítulos con gran valor de contenido impactante. Son como fraces que podemos recordar y asociar a la película.
+Mi interpretación es que un alto TF-IDF resulta para subtítulos con gran valor de contenido impactante. Son como fraces que podemos recordar y asociar a la película. Lo siguiente es una muestra de algunos elementos de subtitulos bajos:
 
 ![alt text](image-8.png)
 
